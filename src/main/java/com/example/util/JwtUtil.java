@@ -22,10 +22,11 @@ public class JwtUtil {
                 .signWith(getSignInKey())
                 .compact();
     }
-    public static String encode(String username, String profileId, RoleEnum roleList) {
+    public static String encode(String username, Integer profileId, List<RoleEnum> roleList) {
+        String strRoles = roleList.stream().map(Enum::name).
+                collect(Collectors.joining(","));
 
         Map<String, String> claims = new HashMap<>();
-        claims.put("roles", String.valueOf(roleList));
         claims.put("id", String.valueOf(profileId));
 
         return Jwts

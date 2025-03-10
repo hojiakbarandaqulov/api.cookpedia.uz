@@ -1,5 +1,6 @@
 package com.example.service;
 
+import ch.qos.logback.core.util.MD5Util;
 import com.example.dto.ApiResponse;
 import com.example.dto.auth.LoginDTO;
 import com.example.dto.auth.ProfileDTO;
@@ -11,7 +12,6 @@ import com.example.enums.RoleEnum;
 import com.example.exp.AppBadException;
 import com.example.repository.ProfileRepository;
 import com.example.util.JwtUtil;
-import com.example.util.MD5Util;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -55,7 +55,6 @@ public class AuthService {
         mailSendingService.sendRegistrationEmail(dto.getEmail(), language);
         return ApiResponse.ok(messageService.getMessage("registration.successful", language));
     }
-
 
     public ApiResponse<?> login(LoginDTO dto, AppLanguage language) {
         Optional<ProfileEntity> loginProfile = profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
