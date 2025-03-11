@@ -2,7 +2,6 @@ package com.example.entity;
 
 import com.example.enums.Gender;
 import com.example.enums.GeneralStatus;
-import com.example.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -41,6 +40,12 @@ public class ProfileEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
+
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
+
+    @Column(name = "visible")
+    private Boolean visible=Boolean.TRUE;
 
     @Column(name = "role")
     private RoleEnum roleEnum;
