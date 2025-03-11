@@ -25,7 +25,7 @@ public class AuthService {
     private ResourceBundleService messageService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public ApiResponse<String> registration(RegistrationDTO dto, AppLanguage language) {
+   /* public ApiResponse<String> registration(RegistrationDTO dto, AppLanguage language) {
         Optional<ProfileEntity> profile = profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
         if (profile.isPresent()) {
             ProfileEntity profileEntity = profile.get();
@@ -48,5 +48,5 @@ public class AuthService {
         profileRoleService.create(entity.getId(), RoleEnum.ROLE_USER);
 
         return ;
-    }
+    }*/
 }

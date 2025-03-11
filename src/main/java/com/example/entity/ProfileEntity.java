@@ -13,14 +13,13 @@ import java.time.LocalDateTime;
 @Table(name = "profile")
 public class ProfileEntity {
     @Id
-
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(updatable = false, nullable = false)
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
     @Column(name = "full_name",nullable = false)
     private String fullName;
+
 
     @Column(name = "email", nullable = false)
     private String email;
