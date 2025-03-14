@@ -49,6 +49,7 @@ public class AuthService {
         entity.setPassword(MD5Util.getMD5(dto.getPassword()));
         entity.setStatus(GeneralStatus.REGISTRATION);
         entity.setVisible(true);
+        entity.setRole(RoleEnum.ROLE_USER);
         entity.setCreatedDate(LocalDateTime.now());
         profileRepository.save(entity);
 
@@ -72,7 +73,7 @@ public class AuthService {
         ProfileDTO response = new ProfileDTO();
         response.setFullName(entity.getFullName());
         response.setEmail(entity.getEmail());
-        response.setRoleEnum(entity.getRoleEnum());
+        response.setRoleEnum(entity.getRole());
         response.setJwt(JwtUtil.encode(response.getEmail(), entity.getId(), response.getRoleEnum()));
         return ApiResponse.ok(response);
     }

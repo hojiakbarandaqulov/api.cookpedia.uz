@@ -10,5 +10,4 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, UUID> {
 
     Optional<ProfileEntity> findByEmailAndVisibleTrue(String email);
 
-
 }
