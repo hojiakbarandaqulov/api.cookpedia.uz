@@ -1,6 +1,5 @@
 package com.example.config;
 
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -11,11 +10,11 @@ import java.util.Locale;
 public class ResourceBundleConfig {
 
     @Bean
-    public ResourceBundleMessageSource getMessageResource() {
+    public ResourceBundleMessageSource getMessage() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames("i18n/message");
+        messageSource.setBasenames("messages/message");
         messageSource.setDefaultEncoding("UTF-8");
-        messageSource.setDefaultLocale(new Locale("UZ"));
+        messageSource.setDefaultLocale(new Locale("uz")); // if local not found use this
         return messageSource;
     }
 }

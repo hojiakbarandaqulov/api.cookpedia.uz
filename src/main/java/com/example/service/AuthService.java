@@ -1,8 +1,6 @@
 package com.example.service;
 
 import com.example.dto.ApiResponse;
-import com.example.dto.auth.LoginDTO;
-import com.example.dto.auth.ProfileDTO;
 import com.example.dto.auth.RegistrationDTO;
 import com.example.entity.ProfileEntity;
 import com.example.enums.AppLanguage;
@@ -51,7 +49,6 @@ public class AuthService {
         entity.setEmail(dto.getEmail());
         entity.setPassword(MD5Util.getMD5(dto.getPassword()));
         entity.setStatus(GeneralStatus.REGISTRATION);
-        entity.setRoleEnum(RoleEnum.ROLE_USER);
         entity.setVisible(true);
         entity.setCreatedDate(LocalDateTime.now());
         profileRepository.save(entity);
