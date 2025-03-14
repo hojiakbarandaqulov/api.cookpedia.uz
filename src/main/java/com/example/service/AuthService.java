@@ -1,6 +1,8 @@
 package com.example.service;
 
 import com.example.dto.ApiResponse;
+import com.example.dto.auth.LoginDTO;
+import com.example.dto.auth.ProfileDTO;
 import com.example.dto.auth.RegistrationDTO;
 import com.example.entity.ProfileEntity;
 import com.example.enums.AppLanguage;
@@ -9,7 +11,8 @@ import com.example.enums.RoleEnum;
 import com.example.exp.AppBadException;
 import com.example.repository.ProfileRepository;
 import com.example.repository.ProfileRoleRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.example.util.JwtUtil;
+import com.example.util.MD5Util;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
