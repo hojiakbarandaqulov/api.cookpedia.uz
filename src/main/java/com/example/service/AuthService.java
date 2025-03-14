@@ -34,23 +34,43 @@ public class AuthService {
         Optional<ProfileEntity> profile = profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
         if (profile.isPresent()) {
             ProfileEntity profileEntity = profile.get();
-            if (profileEntity.getStatus().equals(GeneralStatus.REGISTRATION)){
-               profileRepository.delete(profileEntity);
-            }else {
+            if (profileEntity.getStatus().equals(GeneralStatus.REGISTRATION)) {
+                profileRepository.delete(profileEntity);
+            } else {
                 throw new AppBadException(messageService.getMessage("profile.already.exists", language));
             }
         }
-        ProfileEntity entity=new ProfileEntity();
+        ProfileEntity entity = new ProfileEntity();
         entity.setFullName(dto.getFullName());
         entity.setEmail(dto.getEmail());
-        entity.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
+        entity.setPassword(MD5Util.getMD5(dto.getPassword()));
         entity.setStatus(GeneralStatus.REGISTRATION);
         entity.setVisible(true);
         entity.setCreatedDate(LocalDateTime.now());
         profileRepository.save(entity);
 
-        profileRoleService.create(entity.getId(), RoleEnum.ROLE_USER);
+        mailSendingService.sendRegistrationEmail(dto.getEmail(), language);
+        return ApiResponse.ok(messageService.getMessage("registration.successful", language));
+    }
 
-        return ;
+
+    public ApiResponse<?> login(LoginDTO dto, AppLanguage language) {
+        Optional<ProfileEntity> loginProfile = profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
+        if (loginProfile.isEmpty()) {
+            throw new AppBadException(messageService.getMessage("profile.password.wrong", language));
+        }
+        ProfileEntity entity = loginProfile.get();
+        if (!entity.getPassword().equals(MD5Util.getMD5(dto.getPassword()))) {
+            throw new AppBadException(messageService.getMessage("password.wrong", language));
+        }
+        if (!entity.getStatus().equals(GeneralStatus.ACTIVE)) {
+            throw new AppBadException(messageService.getMessage("profile.status.wrong", language));
+        }
+        ProfileDTO response = new ProfileDTO();
+        response.setFullName(entity.getFullName());
+        response.setEmail(entity.getEmail());
+        response.setRoleEnum(entity.getRoleEnum());
+        response.setJwt(JwtUtil.encode(response.getEmail(), entity.getId(), response.getRoleEnum()));
+        return ApiResponse.ok(response);
     }
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.management.relation.Role;
 import java.time.LocalDateTime;
 
 @Data
@@ -18,7 +19,7 @@ public class ProfileEntity {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
-    @Column(name = "full_name",nullable = false)
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
 
@@ -28,7 +29,7 @@ public class ProfileEntity {
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
-    @Column(name ="password")
+    @Column(name = "password")
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -48,8 +49,11 @@ public class ProfileEntity {
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
+    @Column(name = "role")
+    private RoleEnum role;
+
     @Column(name = "visible")
-    private Boolean visible=Boolean.TRUE;
+    private Boolean visible = Boolean.TRUE;
 
 
     public String getId() {
