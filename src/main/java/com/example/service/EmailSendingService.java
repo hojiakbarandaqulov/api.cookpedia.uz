@@ -7,13 +7,13 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
-@AllArgsConstructor
 @Service
 public class EmailSendingService {
 
@@ -23,15 +23,18 @@ public class EmailSendingService {
     @Value("${server.domain}")
     private String serverDomain;
 
-    private final ResourceBundleService resourceBundleService;
+    private final ResourceBundleMessageSource resourceBundleService;
     private final JavaMailSender mailSender;
 
+    public EmailSendingService(ResourceBundleMessageSource resourceBundleService, JavaMailSender mailSender) {
+        this.resourceBundleService = resourceBundleService;
+        this.mailSender = mailSender;
+    }
 
-    public void sendRegistrationEmail(String email, Integer profileId, AppLanguage lang) {
+    public void sendRegistrationEmail(String email, AppLanguage lang) {
         String subject = "Complete registration";
         String body=RandomUtil.getRandomCode();
-        body = String.format(body, serverDomain, JwtUtil.encode(profileId, email), lang);
-        sendMimeEmail(email, subject, body);
+        sendSimpleEmail(email, subject, body);
     }
 // We will continue this code in the reset API
    /* public void sentResetPasswordEmail(String username, AppLanguage language) {
@@ -64,6 +67,21 @@ public class EmailSendingService {
             CompletableFuture.runAsync(() -> {
                 mailSender.send(msg);
             });
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void send(String toAccount, String subject, String text)  {
+        try {
+            MimeMessage msg = mailSender.createMimeMessage();
+            msg.setFrom(fromAccount);
+            MimeMessageHelper helper = null;
+            helper = new MimeMessageHelper(msg, true);
+            helper.setTo(toAccount);
+            helper.setSubject(subject);
+            helper.setText(text, true);
+            mailSender.send(msg);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

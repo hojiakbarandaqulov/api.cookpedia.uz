@@ -1,5 +1,5 @@
 package com.example.enums;
 
 public enum AppLanguage {
-    EN, UZ,RU
+    en, uz,ru
 }

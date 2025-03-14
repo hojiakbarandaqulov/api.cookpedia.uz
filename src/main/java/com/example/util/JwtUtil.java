@@ -12,7 +12,7 @@ public class JwtUtil {
     private static final int tokenLiveTime = 1000 * 3600 * 96; // 2-day
     private static final String secretKey = "verylongmazgiskjdhskjdhadasdasgfgdfgdfdftrhdgrgefergetdgsfegvergdgsbdzsfbvgdsetbgrFLKWRMFKJERNGVSFUOISNIUVNSDBFIUSHIULFHWAUOIESIUOFIOEJOIGJMKLDFMGghjgjOTFIJBP";
 
-    public static String encode(Integer profileId, String email) {
+    public static String encode(String profileId, String email) {
         return Jwts
                 .builder()
                 .subject(email)
@@ -22,12 +22,10 @@ public class JwtUtil {
                 .signWith(getSignInKey())
                 .compact();
     }
-    public static String encode(String username, Integer profileId, List<RoleEnum> roleList) {
-        String strRoles = roleList.stream().map(Enum::name).
-                collect(Collectors.joining(","));
+    public static String encode(String username, String profileId, RoleEnum roleList) {
 
         Map<String, String> claims = new HashMap<>();
-        claims.put("roles", strRoles);
+        claims.put("roles", String.valueOf(roleList));
         claims.put("id", String.valueOf(profileId));
 
         return Jwts

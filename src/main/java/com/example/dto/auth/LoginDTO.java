@@ -1,20 +1,16 @@
 package com.example.dto.auth;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NonNull;
 
-@Getter
-@Setter
-public class RegistrationDTO {
+@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class LoginDTO {
 
-    @NotBlank(message = "fullName required")
-    private String fullName;
     @NotBlank(message = "email required")
     private String email;
     @NotBlank(message = "password required")
     private String password;
-
-
 }
