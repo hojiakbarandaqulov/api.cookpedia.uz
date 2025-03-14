@@ -27,6 +27,7 @@ public class JwtUtil {
                 collect(Collectors.joining(","));
 
         Map<String, String> claims = new HashMap<>();
+        claims.put("roles", strRoles);
         claims.put("id", String.valueOf(profileId));
 
         return Jwts

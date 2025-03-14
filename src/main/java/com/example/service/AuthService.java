@@ -1,6 +1,8 @@
 package com.example.service;
 
 import com.example.dto.ApiResponse;
+import com.example.dto.auth.LoginDTO;
+import com.example.dto.auth.ProfileDTO;
 import com.example.dto.auth.RegistrationDTO;
 import com.example.entity.ProfileEntity;
 import com.example.enums.AppLanguage;
@@ -42,6 +44,7 @@ public class AuthService {
         entity.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
         entity.setStatus(GeneralStatus.REGISTRATION);
         entity.setVisible(true);
+        entity.setRole(RoleEnum.ROLE_USER);
         entity.setCreatedDate(LocalDateTime.now());
         profileRepository.save(entity);
 
@@ -64,7 +67,7 @@ public class AuthService {
         ProfileDTO response = new ProfileDTO();
         response.setFullName(entity.getFullName());
         response.setEmail(entity.getEmail());
-        response.setRoleEnum(entity.getRoleEnum());
+        response.setRoleEnum(entity.getRole());
         response.setJwt(JwtUtil.encode(response.getEmail(), entity.getId(), response.getRoleEnum()));
         return ApiResponse.ok(response);
     }
