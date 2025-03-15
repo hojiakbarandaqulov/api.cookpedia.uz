@@ -10,8 +10,9 @@ import com.example.enums.GeneralStatus;
 import com.example.enums.RoleEnum;
 import com.example.exp.AppBadException;
 import com.example.repository.ProfileRepository;
-import com.example.repository.ProfileRoleRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.example.util.JwtUtil;
+import com.example.util.MD5Util;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,20 +20,25 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@AllArgsConstructor
 @Service
 public class AuthService {
-    private ProfileRepository profileRepository;
-    private ProfileRoleService profileRoleService;
-    private ResourceBundleService messageService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ProfileRepository profileRepository;
+    private final ResourceBundleService messageService;
+    private final EmailSendingService emailSendingService;
+    //    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
+    public AuthService(ProfileRepository profileRepository, ResourceBundleService messageService, EmailSendingService emailSendingService) {
+        this.profileRepository = profileRepository;
+        this.messageService = messageService;
+        this.emailSendingService = emailSendingService;
+    }
 
     public ApiResponse<String> registration(RegistrationDTO dto, AppLanguage language) {
         Optional<ProfileEntity> profile = profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
         if (profile.isPresent()) {
             ProfileEntity profileEntity = profile.get();
             if (profileEntity.getStatus().equals(GeneralStatus.REGISTRATION)){
-               profileRoleService.delete(profileEntity.getId());
                profileRepository.delete(profileEntity);
             }else {
                 throw new AppBadException(messageService.getMessage("profile.already.exists", language));
@@ -41,14 +47,14 @@ public class AuthService {
         ProfileEntity entity=new ProfileEntity();
         entity.setFullName(dto.getFullName());
         entity.setEmail(dto.getEmail());
-        entity.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
+        entity.setPassword(MD5Util.getMD5(dto.getPassword()));
         entity.setStatus(GeneralStatus.REGISTRATION);
         entity.setVisible(true);
         entity.setRole(RoleEnum.ROLE_USER);
         entity.setCreatedDate(LocalDateTime.now());
         profileRepository.save(entity);
 
-        mailSendingService.sendRegistrationEmail(dto.getEmail(), language);
+        emailSendingService.sendRegistration(dto.getEmail(), language);
         return ApiResponse.ok(messageService.getMessage("registration.successful", language));
     }
 

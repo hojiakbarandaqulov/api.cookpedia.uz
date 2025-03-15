@@ -17,7 +17,6 @@ public class ProfileEntity {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(updatable = false, nullable = false)
     private String id;
 
     @Column(name = "full_name", nullable = false)
@@ -47,20 +46,10 @@ public class ProfileEntity {
     private LocalDateTime createdDate;
 
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private RoleEnum role;
 
     @Column(name = "visible")
     private Boolean visible = Boolean.TRUE;
 
-    @Column(name = "role")
-    private RoleEnum roleEnum;
-
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
-
-    @Column(name = "role")
-    private RoleEnum role;
-
-    @Column(name = "visible")
-    private Boolean visible = Boolean.TRUE;
 }

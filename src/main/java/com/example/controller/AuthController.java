@@ -25,7 +25,7 @@ public class AuthController {
     public ResponseEntity<ApiResponse<?>> registration(@Valid @RequestBody RegistrationDTO dto,
                                                        @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         ApiResponse<?> registration = authService.registration(dto, language);
-        return ResponseEntity.ok().body(registration);
+        return ResponseEntity.ok(registration);
     }
 
 
@@ -42,4 +42,5 @@ public class AuthController {
         ApiResponse<?> login = authService.login(dto, language);
         return ResponseEntity.ok(login);
     }*/
+
 }

@@ -12,7 +12,7 @@ public class ResourceBundleConfig {
     @Bean
     public ResourceBundleMessageSource getMessage() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames("messages/message");
+        messageSource.setBasenames("i18n/message");
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setDefaultLocale(new Locale("uz")); // if local not found use this
         return messageSource;

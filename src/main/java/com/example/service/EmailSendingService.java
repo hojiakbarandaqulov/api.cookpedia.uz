@@ -7,12 +7,14 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
+
 @Service
 public class EmailSendingService {
 
@@ -30,8 +32,10 @@ public class EmailSendingService {
         this.mailSender = mailSender;
     }
 
+    public void sendRegistration(String username, AppLanguage language) {
         String subject = "Complete registration";
-        String body=RandomUtil.getRandomCode();
+        String body = RandomUtil.getRandomCode();
+        sendSimpleEmail(username, subject, body);
     }
 // We will continue this code in the reset API
    /* public void sentResetPasswordEmail(String username, AppLanguage language) {
@@ -69,7 +73,7 @@ public class EmailSendingService {
         }
     }
 
-    public void send(String toAccount, String subject, String text)  {
+    public void send(String toAccount, String subject, String text) {
         try {
             MimeMessage msg = mailSender.createMimeMessage();
             msg.setFrom(fromAccount);
