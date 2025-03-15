@@ -10,7 +10,6 @@ import com.example.enums.GeneralStatus;
 import com.example.enums.RoleEnum;
 import com.example.exp.AppBadException;
 import com.example.repository.ProfileRepository;
-import com.example.repository.ProfileRoleRepository;
 import com.example.util.JwtUtil;
 import com.example.util.MD5Util;
 
