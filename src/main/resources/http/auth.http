@@ -1,4 +1,4 @@
-### registration API
+### registration
 POST http://localhost:8080/api/v1/auth/registration
 Content-Type: application/json
 Accept-Language: en
@@ -19,3 +19,7 @@ Content-Type: application/json
   "password": "1234"
 }
 
+### verification
+GET http://localhost:8080/api/v1/auth/verification/dfd14ba1-4cb0-491f-9e7e-f1612712ec7f?lang=uz
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJob2ppYWtiYXJhbmRhcXVsb3Y1QGdtYWlsLmNvbSIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWQiOiJkZmQxNGJhMS00Y2IwLTQ5MWYtOWU3ZS1mMTYxMjcxMmVjN2YiLCJpYXQiOjE3NDIwOTg2NjAsImV4cCI6MTc0MjQ0NDI2MH0.r2XFlWW_MjLJ0qxSU70VEvNqF1HMlbKwbzpwQ__7mtjoY-U_ZZEfnGMKNEgM_tYLzzF27dtbN1bdc1t-I3knXQ

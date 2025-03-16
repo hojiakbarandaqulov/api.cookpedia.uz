@@ -13,6 +13,7 @@ public class ResourceBundleService {
     public ResourceBundleService(ResourceBundleMessageSource resourceBundle) {
         this.resourceBundle = resourceBundle;
     }
+
     public String getMessage(String code, AppLanguage lang) {
         return resourceBundle.getMessage(code,null, new Locale(lang.name()));
     }

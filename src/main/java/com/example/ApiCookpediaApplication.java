@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.util.MD5Util;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

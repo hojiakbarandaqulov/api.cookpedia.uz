@@ -21,7 +21,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping(value = "/registration",produces = "application/json")
+    @PostMapping(value = "/registration", produces = "application/json")
     public ResponseEntity<ApiResponse<?>> registration(@Valid @RequestBody RegistrationDTO dto,
                                                        @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         ApiResponse<?> registration = authService.registration(dto, language);
@@ -31,16 +31,16 @@ public class AuthController {
 
     @PostMapping(value = "/login"/*,produces = "application/json"*/)
     public ResponseEntity<ApiResponse<?>> login(@Valid @RequestBody LoginDTO dto,
-                                                       @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+                                                @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         ApiResponse<?> login = authService.login(dto, language);
         return ResponseEntity.ok(login);
     }
 
-   /* @GetMapping(value = "/verification",produces = "application/json")
-    public ResponseEntity<ApiResponse<?>> login(@Valid @RequestBody LoginDTO dto,
-                                                @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
-        ApiResponse<?> login = authService.login(dto, language);
-        return ResponseEntity.ok(login);
-    }*/
+    @GetMapping(value = "/verification/{token}"/*,produces = "application/json"*/)
+    public ResponseEntity<ApiResponse<String>> verification(@PathVariable("token") String token,
+                                                            @RequestParam("lang") AppLanguage language) {
+        ApiResponse<String> verificationResponse = authService.verification(token, language);
+        return ResponseEntity.ok(verificationResponse);
+    }
 
 }

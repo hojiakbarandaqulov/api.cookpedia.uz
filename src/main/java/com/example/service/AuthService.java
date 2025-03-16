@@ -14,24 +14,30 @@ import com.example.util.JwtUtil;
 import com.example.util.MD5Util;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import io.jsonwebtoken.JwtException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
-
+@Slf4j
 @Service
 public class AuthService {
     private final ProfileRepository profileRepository;
     private final ResourceBundleService messageService;
     private final EmailSendingService emailSendingService;
+    private final ProfileService profileService;
     //    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    public AuthService(ProfileRepository profileRepository, ResourceBundleService messageService, EmailSendingService emailSendingService) {
+    public AuthService(ProfileRepository profileRepository, ResourceBundleService messageService, EmailSendingService emailSendingService, ProfileService profileService) {
         this.profileRepository = profileRepository;
         this.messageService = messageService;
         this.emailSendingService = emailSendingService;
+        this.profileService = profileService;
     }
 
     public ApiResponse<String> registration(RegistrationDTO dto, AppLanguage language) {
@@ -77,4 +83,22 @@ public class AuthService {
         response.setJwt(JwtUtil.encode(response.getEmail(), entity.getId(), response.getRoleEnum()));
         return ApiResponse.ok(response);
     }
+
+    public ApiResponse<String> verification(String userId, AppLanguage language) {
+        Optional<ProfileEntity> optional = profileRepository.findById(userId);
+        if (optional.isEmpty()) {
+            log.warn("User not found => {}", userId);
+            String message = messageService.getMessage("user.not.found", language);
+            throw new AppBadException(message);
+        }
+        ProfileEntity entity = optional.get();
+        if (!entity.getVisible() || !entity.getStatus().equals(GeneralStatus.REGISTRATION)) {
+            String message = messageService.getMessage("registration.not.completed", language);
+            throw new AppBadException(message);
+        }
+        profileRepository.changeStatus(userId, GeneralStatus.ACTIVE);
+        return ApiResponse.ok(messageService.getMessage("success", language));
+    }
+
+
 }

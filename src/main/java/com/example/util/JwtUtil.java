@@ -1,5 +1,6 @@
 package com.example.util;
 
+import com.example.dto.JwtDTO;
 import com.example.enums.RoleEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -38,7 +39,7 @@ public class JwtUtil {
                 .compact();
     }
 
-   /* public static JwtDTO decode(String token) {
+    public static JwtDTO decode(String token) {
         Claims claims = Jwts
                 .parser()
                 .verifyWith(getSignInKey())
@@ -46,22 +47,23 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
         String username = claims.getSubject();
-        Integer id = Integer.valueOf((String) claims.get("id"));
+        String id = String.valueOf(claims.get("id"));
         String strRoles = (String) claims.get("roles");
-        List<ProfileRole> roleLis = Arrays.stream(strRoles.split(","))
-                .map(ProfileRole::valueOf)
-                .toList();
-        return new JwtDTO(id, username, roleLis);
-    }*/
+        if (strRoles != null) {
+            RoleEnum profileRole = RoleEnum.valueOf(strRoles);
+            return new JwtDTO(id,username,profileRole);
+        }
+        return new JwtDTO(id);
+    }
 
-    public static Integer decodeVerRegToken(String token) {
+    public static String decodeVerRegToken(String token) {
         Claims claims = Jwts
                 .parser()
                 .verifyWith(getSignInKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-        return Integer.valueOf(claims.getSubject());
+        return String.valueOf(claims.getSubject());
     }
     private static SecretKey getSignInKey() {
         byte[] keyBytes = Base64.getUrlDecoder().decode(secretKey);
