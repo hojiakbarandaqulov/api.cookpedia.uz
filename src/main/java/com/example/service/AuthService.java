@@ -14,14 +14,11 @@ import com.example.util.JwtUtil;
 import com.example.util.MD5Util;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import io.jsonwebtoken.JwtException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 @Slf4j
 @Service
@@ -29,15 +26,13 @@ public class AuthService {
     private final ProfileRepository profileRepository;
     private final ResourceBundleService messageService;
     private final EmailSendingService emailSendingService;
-    private final ProfileService profileService;
     //    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    public AuthService(ProfileRepository profileRepository, ResourceBundleService messageService, EmailSendingService emailSendingService, ProfileService profileService) {
+    public AuthService(ProfileRepository profileRepository, ResourceBundleService messageService, EmailSendingService emailSendingService) {
         this.profileRepository = profileRepository;
         this.messageService = messageService;
         this.emailSendingService = emailSendingService;
-        this.profileService = profileService;
     }
 
     public ApiResponse<String> registration(RegistrationDTO dto, AppLanguage language) {
