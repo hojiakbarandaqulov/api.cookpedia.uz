@@ -54,14 +54,14 @@ public class JwtUtil {
         return new JwtDTO(id, username, roleLis);
     }*/
 
-    public static Integer decodeVerRegToken(String token) {
+    public static String decodeVerRegToken(String token) {
         Claims claims = Jwts
                 .parser()
                 .verifyWith(getSignInKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-        return Integer.valueOf(claims.getSubject());
+        return String.valueOf(claims.getSubject());
     }
     private static SecretKey getSignInKey() {
         byte[] keyBytes = Base64.getUrlDecoder().decode(secretKey);
