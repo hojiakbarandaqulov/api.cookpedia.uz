@@ -36,6 +36,7 @@ public class AuthController {
         return ResponseEntity.ok(login);
     }
 
+
    /* @GetMapping(value = "/verification",produces = "application/json")
     public ResponseEntity<ApiResponse<?>> login(@Valid @RequestBody LoginDTO dto,
                                                 @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
