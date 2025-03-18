@@ -14,6 +14,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.*;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoryDto {
+
     private Long id;
     @NotNull(message = "name required")
     private String name;

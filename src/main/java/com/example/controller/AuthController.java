@@ -23,16 +23,16 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping(value = "/registration", produces = "application/json")
+    @PostMapping(value = "/registration",produces = "application/json")
     public ResponseEntity<ApiResponse<?>> registration(@Valid @RequestBody RegistrationDTO dto,
                                                        @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         ApiResponse<?> registration = authService.registration(dto, language);
-        return ResponseEntity.ok(registration);
+        return ResponseEntity.ok().body(registration);
     }
 
     @PostMapping(value = "/login"/*,produces = "application/json"*/)
     public ResponseEntity<ApiResponse<?>> login(@Valid @RequestBody LoginDTO dto,
-                                                @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+                                                       @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         ApiResponse<?> login = authService.login(dto, language);
         return ResponseEntity.ok(login);
     }
@@ -51,6 +51,13 @@ public class AuthController {
         return ResponseEntity.ok(ok);
     }
 
+   /* @GetMapping(value = "/verification",produces = "application/json")
+    public ResponseEntity<ApiResponse<?>> login(@Valid @RequestBody LoginDTO dto,
+                                                @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+        ApiResponse<?> login = authService.login(dto, language);
+        return ResponseEntity.ok(login);
+    }*/
+
     @PutMapping("/password/update")
     public ResponseEntity<ApiResponse<?>> updatePassword(@Valid @RequestBody UpdatePasswordDTO dto,
                                                          @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language){
@@ -58,3 +65,4 @@ public class AuthController {
         return ResponseEntity.ok(apiResponse);
     }
 }
+

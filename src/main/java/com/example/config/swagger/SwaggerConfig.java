@@ -30,7 +30,6 @@ public class SwaggerConfig {
         contact.setName("BezKoder");
         contact.setUrl("https://www.bezkoder.com");
 
-
         Info info = new Info()
                 .title("Scolaro.uz Management API")
                 .version("1.0")
