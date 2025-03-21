@@ -1,2 +1,2 @@
 INSERT INTO profile(id,full_name,email,password,status,brith_date,gender,created_date,role,visible)
-VALUES ('e58ed763-928c-4155-bee9-fdbaaadc15f3','Ali Aliyev','hojiakbarandaqulov@gmail.com','827ccbeea8a706c4c34a16891f84e7b','ACTIVE',now(),'MALE', now(),'ROLE_ADMIN',true)
+VALUES ('e58ed763-928c-4155-bee9-fdbaaadc15f3','Ali Aliyev','hojiakbarandaqulov@gmail.com','$2a$10$JHshrwDwJo3V0W8HiBUy/eSdMpmeElL4vGiQy5PcxbF8kq46vgxby','ACTIVE',now(),'MALE', now(),'ROLE_ADMIN',true)

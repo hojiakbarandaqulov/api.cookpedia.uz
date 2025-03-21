@@ -1,6 +1,8 @@
 package com.example.service;
 
 import com.example.enums.AppLanguage;
+import com.example.enums.SmsType;
+import com.example.exp.AppBadException;
 import com.example.util.JwtUtil;
 import com.example.util.RandomUtil;
 import jakarta.mail.MessagingException;
@@ -24,11 +26,13 @@ public class EmailSendingService {
     @Value("${server.domain}")
     private String serverDomain;
 
-    private final ResourceBundleMessageSource resourceBundleService;
+    private final ResourceBundleService resourceBundleService;
+    private final EmailHistoryService emailHistoryService;
     private final JavaMailSender mailSender;
 
-    public EmailSendingService(ResourceBundleMessageSource resourceBundleService, JavaMailSender mailSender) {
+    public EmailSendingService(ResourceBundleService resourceBundleService, EmailHistoryService emailHistoryService, JavaMailSender mailSender) {
         this.resourceBundleService = resourceBundleService;
+        this.emailHistoryService = emailHistoryService;
         this.mailSender = mailSender;
     }
 
@@ -38,12 +42,11 @@ public class EmailSendingService {
         sendSimpleEmail(username, subject, body);
     }
 // We will continue this code in the reset API
-   /* public void sentResetPasswordEmail(String username, AppLanguage language) {
+    public void sentResetPasswordEmail(String username, AppLanguage language) {
         String code = RandomUtil.getRandomCode();
         String subject = "Reset password Conformation";
         String body = "How are you. This is confirm code reset password send code %s : " + code;
         checkAndSendMineEmail(username, subject, body,code,language);
-
     }
 
     private void checkAndSendMineEmail(String email, String subject, String body, String code, AppLanguage language) {
@@ -54,8 +57,7 @@ public class EmailSendingService {
 
         sendMimeEmail(email, subject, body);
         emailHistoryService.create(email, code, SmsType.RESET_PASSWORD);
-
-    }*/
+    }
 
     private void sendMimeEmail(String email, String subject, String body) {
         try {

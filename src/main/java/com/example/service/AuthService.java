@@ -1,9 +1,7 @@
 package com.example.service;
 
 import com.example.dto.ApiResponse;
-import com.example.dto.auth.LoginDTO;
-import com.example.dto.auth.ProfileDTO;
-import com.example.dto.auth.RegistrationDTO;
+import com.example.dto.auth.*;
 import com.example.entity.ProfileEntity;
 import com.example.enums.AppLanguage;
 import com.example.enums.GeneralStatus;
@@ -96,4 +94,31 @@ public class AuthService {
     }
 
 
+    public ApiResponse<String> resetPassword(ResetPasswordDTO dto, AppLanguage language) {
+        Optional<ProfileEntity> optional = profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
+        if (optional.isEmpty()) {
+            log.warn("User not found => {}", dto.getEmail());
+            throw new AppBadException(messageService.getMessage("profile.password.wrong", language));
+        }
+        ProfileEntity entity = optional.get();
+        if (!entity.getStatus().equals(GeneralStatus.ACTIVE)) {
+            log.warn("User status wrong => {}", dto.getEmail());
+            throw new AppBadException(messageService.getMessage("profile.status.wrong", language));
+        }
+
+        emailSendingService.sendRegistration(entity.getEmail(), language);
+        return ApiResponse.ok(messageService.getMessage("resent.code.sent", language));
+    }
+
+    public ApiResponse<?> updatePassword(UpdatePasswordDTO dto, AppLanguage language) {
+        Optional<ProfileEntity> optional = profileRepository.findByEmailAndVisibleTrue(dto.getUsername());
+        if (optional.isEmpty()) {
+            log.warn("User not found => {}", dto.getUsername());
+            throw new AppBadException(messageService.getMessage("profile.not.found", language));
+        }
+        ProfileEntity entity = optional.get();
+        ProfileEntity  profileEntity= new ProfileEntity();
+        profileEntity.setPassword(dto.getPassword());
+
+    }
 }
