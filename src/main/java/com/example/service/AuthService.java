@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+
 @Slf4j
 @Service
 public class AuthService {
@@ -37,13 +38,13 @@ public class AuthService {
         Optional<ProfileEntity> profile = profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
         if (profile.isPresent()) {
             ProfileEntity profileEntity = profile.get();
-            if (profileEntity.getStatus().equals(GeneralStatus.REGISTRATION)){
-               profileRepository.delete(profileEntity);
-            }else {
+            if (profileEntity.getStatus().equals(GeneralStatus.REGISTRATION)) {
+                profileRepository.delete(profileEntity);
+            } else {
                 throw new AppBadException(messageService.getMessage("profile.already.exists", language));
             }
         }
-        ProfileEntity entity=new ProfileEntity();
+        ProfileEntity entity = new ProfileEntity();
         entity.setFullName(dto.getFullName());
         entity.setEmail(dto.getEmail());
         entity.setPassword(MD5Util.getMD5(dto.getPassword()));
@@ -117,8 +118,8 @@ public class AuthService {
             throw new AppBadException(messageService.getMessage("profile.not.found", language));
         }
         ProfileEntity entity = optional.get();
-        ProfileEntity  profileEntity= new ProfileEntity();
+        ProfileEntity profileEntity = new ProfileEntity();
         profileEntity.setPassword(dto.getPassword());
-
+        return null;
     }
 }

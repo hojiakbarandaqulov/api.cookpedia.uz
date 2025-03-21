@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface EmailHistoryRepository extends JpaRepository<EmailHistoryEntity, String> {
     Long countByEmailAndCreatedDateBetween(String email, LocalDateTime from, LocalDateTime to);
 
+    @Query(value = "select * from email_history where email=?1 order by created_date=desc limit 1", nativeQuery = true)
     Optional<EmailHistoryEntity> findTop1ByEmailOrderByCreatedDateDesc(String email);
 
     @Modifying
