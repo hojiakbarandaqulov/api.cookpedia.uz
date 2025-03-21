@@ -3,6 +3,8 @@ package com.example.controller;
 import com.example.dto.ApiResponse;
 import com.example.dto.auth.LoginDTO;
 import com.example.dto.auth.RegistrationDTO;
+import com.example.dto.auth.ResetPasswordDTO;
+import com.example.dto.auth.UpdatePasswordDTO;
 import com.example.enums.AppLanguage;
 import com.example.service.AuthService;
 import jakarta.validation.Valid;
@@ -28,7 +30,6 @@ public class AuthController {
         return ResponseEntity.ok(registration);
     }
 
-
     @PostMapping(value = "/login"/*,produces = "application/json"*/)
     public ResponseEntity<ApiResponse<?>> login(@Valid @RequestBody LoginDTO dto,
                                                 @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
@@ -43,4 +44,17 @@ public class AuthController {
         return ResponseEntity.ok(verificationResponse);
     }
 
+    @PostMapping("/registration/reset")
+    public ResponseEntity<ApiResponse<String>> resent(@Valid @RequestBody ResetPasswordDTO dto,
+                                                      @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+        ApiResponse<String> ok = authService.resetPassword(dto, language);
+        return ResponseEntity.ok(ok);
+    }
+
+    @PutMapping("/password/update")
+    public ResponseEntity<ApiResponse<?>> updatePassword(@Valid @RequestBody UpdatePasswordDTO dto,
+                                                         @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language){
+        ApiResponse<?> apiResponse = authService.updatePassword(dto, language);
+        return ResponseEntity.ok(apiResponse);
+    }
 }
