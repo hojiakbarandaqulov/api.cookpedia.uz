@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class ResetPasswordDTO {
-
     @NotBlank(message = "email required")
     private String email;
+
 }

@@ -5,7 +5,7 @@ Accept-Language: en
 
 {
   "fullName": "Ali Aliyev",
-  "email": "codeuz91@gmail.com",
+  "email": "hojiakbarandaqulov5@gmail.com",
   "password": "1234"
 }
 
@@ -31,4 +31,14 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJob2ppYWtiYXJhbmRhcXVsb3Y1Q
 
 {
   "email": "codeuz91@gmail.com"
+}
+
+### update password
+PUT http://localhost:8080/api/v1/auth/password/update
+Content-Type: application/json
+
+{
+  "username": "hojiakbarandaqulov5@gmail.com",
+  "confirmPassword": "2241",
+  "newPassword": "12345"
 }

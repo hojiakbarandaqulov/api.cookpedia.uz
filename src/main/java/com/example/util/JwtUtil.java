@@ -13,7 +13,7 @@ public class JwtUtil {
     private static final int tokenLiveTime = 1000 * 3600 * 96; // 2-day
     private static final String secretKey = "verylongmazgiskjdhskjdhadasdasgfgdfgdfdftrhdgrgefergetdgsfegvergdgsbdzsfbvgdsetbgrFLKWRMFKJERNGVSFUOISNIUVNSDBFIUSHIULFHWAUOIESIUOFIOEJOIGJMKLDFMGghjgjOTFIJBP";
 
-    public static String encode(Integer profileId, String email) {
+    public static String encode(String profileId, String email) {
         return Jwts
                 .builder()
                 .subject(email)

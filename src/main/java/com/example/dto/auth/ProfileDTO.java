@@ -14,5 +14,4 @@ public class ProfileDTO {
     private RoleEnum roleEnum;
     private String jwt;
 
-
 }

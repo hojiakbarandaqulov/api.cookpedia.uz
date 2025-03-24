@@ -8,7 +8,6 @@ import lombok.NonNull;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LoginDTO {
-
     @NotBlank(message = "email required")
     private String email;
     @NotBlank(message = "password required")

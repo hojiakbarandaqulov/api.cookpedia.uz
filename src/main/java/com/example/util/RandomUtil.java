@@ -6,6 +6,6 @@ public class RandomUtil {
 
     public static String getRandomCode(){
         Random random = new Random();
-        return String.valueOf(random.nextInt(100000,999999));
+        return String.valueOf(random.nextInt(1000,9999));
     }
 }

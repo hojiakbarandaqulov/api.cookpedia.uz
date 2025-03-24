@@ -23,4 +23,6 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, UUID> {
     @Query("update ProfileEntity  set status=?2 where id=?1")
     void changeStatus(String profileId, GeneralStatus generalStatus);
 
+    @Query("from ProfileEntity where email=?1")
+    Optional<ProfileEntity> findByEmail(String username);
 }
