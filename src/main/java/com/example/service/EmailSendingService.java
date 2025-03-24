@@ -67,7 +67,6 @@ public class EmailSendingService {
                 "</body>\n" +
                 "</html>";
         body = String.format(body, serverDomain, JwtUtil.encode(profileId, email), lang);
-        emailHistoryService.create(email,body, SmsType.REGISTRATION);
         sendMimeEmail(email, subject, body);
     }
    /* public void sendRegistration(String username, AppLanguage language) {
@@ -110,7 +109,7 @@ public class EmailSendingService {
         }
     }
 
-    public void send(String toAccount, String subject, String text) {
+   /* public void send(String toAccount, String subject, String text) {
         try {
             MimeMessage msg = mailSender.createMimeMessage();
             msg.setFrom(fromAccount);
@@ -132,5 +131,5 @@ public class EmailSendingService {
         simpleMailMessage.setSubject(subject);
         simpleMailMessage.setText(body);
         mailSender.send(simpleMailMessage);
-    }
+    }*/
 }

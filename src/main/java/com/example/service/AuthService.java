@@ -99,7 +99,6 @@ public class AuthService {
         return ApiResponse.ok(messageService.getMessage("success", language));
     }
 
-
     public ApiResponse<String> resetPassword(ResetPasswordDTO dto, AppLanguage language) {
         Optional<ProfileEntity> optional = profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
         if (optional.isEmpty()) {
