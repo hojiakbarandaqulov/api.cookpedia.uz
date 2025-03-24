@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class RegistrationDTO {
-
     @NotBlank(message = "username required")
     private String fullName;
     @NotBlank(message = "email required")

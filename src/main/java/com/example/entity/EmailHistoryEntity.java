@@ -26,7 +26,7 @@ public class EmailHistoryEntity {
     @Column(name = "email_type")
     private SmsType emailType;
 
-    @Column(name = "attemp_count")
+    @Column(name = "attempt_count")
     private Integer attemptCount;
 
 }

@@ -2,11 +2,13 @@ package com.example.service;
 
 import com.example.dto.ApiResponse;
 import com.example.dto.auth.*;
+import com.example.entity.EmailHistoryEntity;
 import com.example.entity.ProfileEntity;
 import com.example.enums.AppLanguage;
 import com.example.enums.GeneralStatus;
 import com.example.enums.RoleEnum;
 import com.example.exp.AppBadException;
+import com.example.repository.EmailHistoryRepository;
 import com.example.repository.ProfileRepository;
 import com.example.util.JwtUtil;
 import com.example.util.MD5Util;
@@ -14,6 +16,7 @@ import com.example.util.MD5Util;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,13 +28,15 @@ public class AuthService {
     private final ProfileRepository profileRepository;
     private final ResourceBundleService messageService;
     private final EmailSendingService emailSendingService;
-    //    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final EmailHistoryRepository emailHistoryRepository;
 
-
-    public AuthService(ProfileRepository profileRepository, ResourceBundleService messageService, EmailSendingService emailSendingService) {
+    public AuthService(ProfileRepository profileRepository, ResourceBundleService messageService, EmailSendingService emailSendingService, BCryptPasswordEncoder bCryptPasswordEncoder, EmailHistoryRepository emailHistoryRepository) {
         this.profileRepository = profileRepository;
         this.messageService = messageService;
         this.emailSendingService = emailSendingService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.emailHistoryRepository = emailHistoryRepository;
     }
 
     public ApiResponse<String> registration(RegistrationDTO dto, AppLanguage language) {
@@ -47,14 +52,14 @@ public class AuthService {
         ProfileEntity entity = new ProfileEntity();
         entity.setFullName(dto.getFullName());
         entity.setEmail(dto.getEmail());
-        entity.setPassword(MD5Util.getMD5(dto.getPassword()));
+        entity.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
         entity.setStatus(GeneralStatus.REGISTRATION);
         entity.setVisible(true);
         entity.setRole(RoleEnum.ROLE_USER);
         entity.setCreatedDate(LocalDateTime.now());
         profileRepository.save(entity);
 
-        emailSendingService.sendRegistration(dto.getEmail(), language);
+        emailSendingService.sendRegistrationEmail(dto.getEmail(),entity.getId(), language);
         return ApiResponse.ok(messageService.getMessage("registration.successful", language));
     }
 
@@ -64,7 +69,7 @@ public class AuthService {
             throw new AppBadException(messageService.getMessage("profile.password.wrong", language));
         }
         ProfileEntity entity = loginProfile.get();
-        if (!entity.getPassword().equals(MD5Util.getMD5(dto.getPassword()))) {
+        if (!bCryptPasswordEncoder.matches(dto.getPassword(), entity.getPassword())) {
             throw new AppBadException(messageService.getMessage("password.wrong", language));
         }
         if (!entity.getStatus().equals(GeneralStatus.ACTIVE)) {
@@ -107,19 +112,24 @@ public class AuthService {
             throw new AppBadException(messageService.getMessage("profile.status.wrong", language));
         }
 
-        emailSendingService.sendRegistration(entity.getEmail(), language);
+        emailSendingService.sentResetPasswordEmail(entity.getEmail(), language);
         return ApiResponse.ok(messageService.getMessage("resent.code.sent", language));
     }
 
     public ApiResponse<?> updatePassword(UpdatePasswordDTO dto, AppLanguage language) {
-        Optional<ProfileEntity> optional = profileRepository.findByEmailAndVisibleTrue(dto.getUsername());
+        Optional<EmailHistoryEntity> optional = emailHistoryRepository.findByEmailAndCode(dto.getUsername(),dto.getConfirmPassword());
         if (optional.isEmpty()) {
             log.warn("User not found => {}", dto.getUsername());
-            throw new AppBadException(messageService.getMessage("profile.not.found", language));
+            throw new AppBadException(messageService.getMessage("emailHistory.not.found", language));
         }
-        ProfileEntity entity = optional.get();
-        ProfileEntity profileEntity = new ProfileEntity();
-        profileEntity.setPassword(dto.getPassword());
-        return null;
+        Optional<ProfileEntity> byEmail = profileRepository.findByEmail(dto.getUsername());
+        if (byEmail.isEmpty()) {
+            log.warn("User not found => {}", dto.getUsername());
+            throw new AppBadException(messageService.getMessage("user.not.found", language));
+        }
+        ProfileEntity entity = byEmail.get();
+        entity.setPassword(bCryptPasswordEncoder.encode(dto.getNewPassword()));
+        profileRepository.save(entity);
+        return ApiResponse.ok(messageService.getMessage("success", language));
     }
 }
