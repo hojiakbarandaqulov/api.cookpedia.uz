@@ -20,7 +20,7 @@ public class CategoryEntity {
     private LocalDateTime createdDate = LocalDateTime.now();
 
     @Column(name = "updated_date")
-    private LocalDateTime updated_dateDate = LocalDateTime.now();
+    private LocalDateTime updated_Date = LocalDateTime.now();
 
     @Column(name = "deleted_date")
     private LocalDateTime deletedDate = LocalDateTime.now();
