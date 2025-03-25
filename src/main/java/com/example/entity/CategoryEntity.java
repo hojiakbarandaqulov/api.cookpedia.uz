@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;
@@ -24,4 +24,7 @@ public class CategoryEntity {
 
     @Column(name = "deleted_date")
     private LocalDateTime deletedDate = LocalDateTime.now();
+
+    @Column(name = "visible")
+    private boolean visible  = true;
 }

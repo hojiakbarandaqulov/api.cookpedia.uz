@@ -1,0 +1,10 @@
+###
+POST http://localhost:8080/api/v1/category/create
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Videolar",
+  "visible": true,
+  "createdDate": ""
+}

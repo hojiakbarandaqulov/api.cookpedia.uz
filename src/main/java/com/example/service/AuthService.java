@@ -11,17 +11,14 @@ import com.example.exp.AppBadException;
 import com.example.repository.EmailHistoryRepository;
 import com.example.repository.ProfileRepository;
 import com.example.util.JwtUtil;
-import com.example.util.MD5Util;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-
 @Slf4j
 @Service
 public class AuthService {
