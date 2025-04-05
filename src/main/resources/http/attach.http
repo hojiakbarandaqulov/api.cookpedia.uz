@@ -1,0 +1,18 @@
+### attach upload
+POST http://localhost:8080/api/v1/attach/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="fileName"; filename="OpenCV.png"
+
+< C:\Users\hojia\Pictures\OpenCV.png
+
+### attach load
+GET http://localhost:8080/api/v1/attach/open_general/2d0e39e7-5c67-4ed2-80e0-9b2bad8a7518.png
+
+### attach download
+GET http://localhost:8080/api/v1/attach/download/e1fdac25-4bad-4604-851b-dc72b6d9a59b.png
+
+### pagination
+GET http://localhost:8080/api/v1/attach/pagination?page=1&size=3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MzEwNjk1MDksImlkIjoiZTU4ZWQ3NjMtOTI4Yy00MTU1LWJlZTktZmRiYWFhZGMxNWYzIiwicm9sZSI6IlJPTEVfQURNSU4iLCJ1c2VybmFtZSI6Ijk5ODk5MjQzMTA2OCIsImV4cCI6MTczMTQxNTEwOSwiaXNzIjoiSW50ZXJ2aWV3X3F1ZXN0aW9ucyJ9.O8VswXqk7bUIsG23SYBplQ77d7E3uVnkN8hs5u106-iZGeR1QzZFZd4_9XGBeexF2SdcKo2KKPqLML-KZe1tpw

@@ -1,4 +1,3 @@
-/*
 package com.example.config.swagger;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -17,7 +16,7 @@ import java.util.List;
 @Configuration
 @ConditionalOnProperty(value = "springfox.documentation.enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerConfig {
-    @Value("${server.host}")
+    @Value("${server.url}")
     private String url;
 
     @Bean
@@ -43,4 +42,3 @@ public class SwaggerConfig {
         return new OpenAPI().info(info).servers(List.of(devServer));
     }
 }
-*/

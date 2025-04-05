@@ -21,7 +21,6 @@ public class ProfileEntity {
     @Column(name = "full_name",nullable = false)
     private String fullName;
 
-
     @Column(name = "email", nullable = false)
     private String email;
 
