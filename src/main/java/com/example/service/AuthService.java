@@ -10,7 +10,6 @@ import com.example.enums.RoleEnum;
 import com.example.exp.AppBadException;
 import com.example.repository.EmailHistoryRepository;
 import com.example.repository.ProfileRepository;
-import com.example.service.sms.SmsService;
 import com.example.util.EmailUtil;
 import com.example.util.JwtUtil;
 import com.example.util.PhoneUtil;
@@ -30,15 +29,13 @@ public class AuthService {
     private final EmailSendingService emailSendingService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final EmailHistoryRepository emailHistoryRepository;
-    private final SmsService smsService;
 
-    public AuthService(ProfileRepository profileRepository, ResourceBundleService messageService, EmailSendingService emailSendingService, BCryptPasswordEncoder bCryptPasswordEncoder, EmailHistoryRepository emailHistoryRepository, SmsService smsService) {
+    public AuthService(ProfileRepository profileRepository, ResourceBundleService messageService, EmailSendingService emailSendingService, BCryptPasswordEncoder bCryptPasswordEncoder, EmailHistoryRepository emailHistoryRepository) {
         this.profileRepository = profileRepository;
         this.messageService = messageService;
         this.emailSendingService = emailSendingService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.emailHistoryRepository = emailHistoryRepository;
-        this.smsService = smsService;
     }
 
     public ApiResponse<String> registration(RegistrationDTO dto, AppLanguage language) {
@@ -125,10 +122,7 @@ public class AuthService {
         ProfileEntity profile = optional.get();
         if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
             throw new AppBadException(messageService.getMessage("wrong.status", language));
-        }
-        if (PhoneUtil.isPhone(dto.getUsername())){
-            smsService.sendSms(dto.getUsername());
-        } else if (EmailUtil.isEmail(dto.getUsername()) ){
+        }if (EmailUtil.isEmail(dto.getUsername()) ){
             emailSendingService.sentResetPasswordEmail(dto.getUsername(), language);
         }
         profileRepository.updatePassword(profile.getId(), bCryptPasswordEncoder.encode(dto.getNewPassword()));

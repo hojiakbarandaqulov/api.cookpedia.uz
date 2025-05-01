@@ -30,6 +30,7 @@ public class AuthController {
         return ResponseEntity.ok().body(registration);
     }
 
+
     @PostMapping(value = "/login"/*,produces = "application/json"*/)
     public ResponseEntity<ApiResponse<?>> login(@Valid @RequestBody LoginDTO dto,
                                                        @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
@@ -50,6 +51,7 @@ public class AuthController {
         ApiResponse<String> ok = authService.resetPassword(dto, language);
         return ResponseEntity.ok(ok);
     }
+
 
    /* @GetMapping(value = "/verification",produces = "application/json")
     public ResponseEntity<ApiResponse<?>> login(@Valid @RequestBody LoginDTO dto,
