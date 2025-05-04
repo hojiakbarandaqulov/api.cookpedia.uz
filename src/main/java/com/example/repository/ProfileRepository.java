@@ -3,6 +3,7 @@ package com.example.repository;
 import com.example.entity.ProfileEntity;
 import com.example.enums.GeneralStatus;
 import jakarta.transaction.Transactional;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,13 +11,14 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface ProfileRepository extends JpaRepository<ProfileEntity, UUID> {
+public interface ProfileRepository extends JpaRepository<ProfileEntity, String> {
 
     Optional<ProfileEntity> findByEmailAndVisibleTrue(String email);
 
     Optional<Object> findByIdAndVisibleTrue(String id);
 
-    Optional<ProfileEntity> findById(String id);
+    @NotNull
+    Optional<ProfileEntity> findById(@NotNull String id);
 
     @Modifying
     @Transactional
