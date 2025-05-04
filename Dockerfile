@@ -3,7 +3,7 @@ WORKDIR /opt/app
 ARG JAR_FILE=target/api_cookpedia-*.jar
 COPY ${JAR_FILE} api_cookpedia.jar
 
-EXPOSE 8081
+EXPOSE 8082
 ENTRYPOINT ["java", "-Dspring.profiles.active=docker", "-jar","api_cookpedia.jar"]
 
 
