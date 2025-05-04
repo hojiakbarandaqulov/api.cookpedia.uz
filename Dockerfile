@@ -4,3 +4,7 @@ ARG JAR_FILE=target/api_cookpedia-*.jar
 COPY ${JAR_FILE} api_cookpedia.jar
 
 ENTRYPOINT ["java", "-jar","api_cookpedia.jar"]
+
+
+ENTRYPOINT ["java", "-Dspring.profiles.active=docker", "-jar", "/api_cookpedia.jar"]
+

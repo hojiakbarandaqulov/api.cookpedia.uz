@@ -1,0 +1,7 @@
+environment:
+  SPRING_PROFILES_ACTIVE: docker
+
+  DB_URL: jdbc:postgresql://postgres:5432/cookpedia_db
+  DB_USER: user
+  DB_PASS: 1234
+
