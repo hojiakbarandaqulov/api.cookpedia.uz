@@ -6,5 +6,5 @@ Content-Type: application/json
   "id": 1,
   "name": "Videolar",
   "visible": true,
-  "createdDate": ""
+  "createdDate": "Java Dasturchilari"
 }
