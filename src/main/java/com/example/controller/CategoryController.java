@@ -25,5 +25,4 @@ public class CategoryController {
         ApiResponse<CategoryDto> response = categoryService.create(dto);
         return ResponseEntity.ok(response);
     }
-
 }

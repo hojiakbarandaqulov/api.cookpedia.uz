@@ -65,5 +65,6 @@ public class AuthController {
         ApiResponse<?> apiResponse = authService.updatePassword(dto, language);
         return ResponseEntity.ok(apiResponse);
     }
+
 }
 
